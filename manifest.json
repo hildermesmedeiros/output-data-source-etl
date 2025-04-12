@@ -1,0 +1,24 @@
+{
+  "name": "output-data-source-etl",
+  "label": "Output Data Source ETL",
+  "type": "widget",
+  "version": "1.17.0",
+  "exbVersion": "1.17.0",
+  "author": "Hildermes",
+  "description": "Widget for ETL of data with a specific schema.",
+  "copyright": "",
+  "license": "",
+  "dependency": "jimu-arcgis",
+  "properties": {
+    "hasEmbeddedLayout": true,
+    "hasSettingPage": true,
+    "supportDataAction": true,
+    "isDemoWidget": false
+  },
+  "translatedLocales": ["pt-BR"],
+  "defaultSize": {
+    "width": 600,
+    "height": 500
+  },
+  "useMapWidgetIds": true
+} 
