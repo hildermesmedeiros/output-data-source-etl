@@ -20,7 +20,6 @@ import { fetchData} from '../fetcher';
 const { useState } = React
 
 const Widget = (props: AllWidgetProps<IMConfig>) => {
-  const [token, setToken] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [errMsg, setErrMsg] = useState<string>(null)
   const [jimuMapView, setJimuMapView] = useState<JimuMapView>();
@@ -203,28 +202,6 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
     }
   }, [props.outputDataSources]);
 
-  useEffect(() => {
-    const getToken = async () => {
-      const sessionManager = SessionManager.getInstance();
-      if (sessionManager) {
-        try {
-          const session = sessionManager.getMainSession();
-          if (session) {
-            const sessionToken = session.token;
-            setToken(sessionToken);
-          } else {
-            console.warn("Main session not found");
-            setToken(null);
-          }
-        } catch (error) {
-          console.error("Error getting token:", error);
-          setToken(null);
-        }
-      }
-    };
-
-    getToken();
-  }, []);
 
   const updateDataSource = (ds: any) => {
     if (!ds) {
@@ -286,7 +263,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
     setErrMsg(null);
 
     try {
-      const onlineData = await fetchData(token, props.config.featureUrl);
+      const onlineData = await fetchData(props.config.featureUrl);
       
       if (!onlineData || !onlineData.features) {
         throw new Error('Invalid online data');

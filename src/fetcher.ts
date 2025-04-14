@@ -3,7 +3,6 @@ import { SCHEMA } from './constants';
 import FeatureLayer from '@arcgis/core/layers/FeatureLayer';
 import { mockFeatureServerResponse } from './mock-data';
 
-// Mapeamento de tipos ESRI para tipos do ArcGIS JS API
 const fieldTypeMap = {
   'esriFieldTypeOID': 'oid',
   'esriFieldTypeString': 'string',
@@ -108,7 +107,7 @@ export interface EsriFeature {
 }
 
 
-export async function fetchData(token: string | null, featureUrl: string): Promise<{
+export async function fetchData(featureUrl: string): Promise<{
   objectIdFieldName: string,
   uniqueIdField: { name: string, isSystemMaintained: boolean },
   geometryType: string,
@@ -118,8 +117,7 @@ export async function fetchData(token: string | null, featureUrl: string): Promi
 }> {
   try {
     const featureLayer = new FeatureLayer({ 
-      url: featureUrl,
-      ...(token && { token })
+      url: featureUrl
     });
 
     await featureLayer.load();
@@ -127,6 +125,7 @@ export async function fetchData(token: string | null, featureUrl: string): Promi
     const query = featureLayer.createQuery();
     query.outFields = ['*'];
     query.returnGeometry = true;
+    query.orderByFields = ['objectid ASC'];
     query.where = '1=1';
     query.start = 0;
     query.num = 1000;
